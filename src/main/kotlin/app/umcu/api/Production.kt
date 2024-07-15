@@ -19,13 +19,18 @@
 package app.umcu.api
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.Field
 
 @Document(collection = "productions")
 class Production(
 	@Id @JsonIgnore val id: String? = null,
 	@Indexed(unique = true) var slug: String? = null,
+	@Indexed @Field("tmdb_id") @JsonProperty("tmdb_id") val tmdbId: Int,
+	@Field("imdb_id") @JsonProperty("imdb_id") val imdbId: String? = null,
 	val title: String,
+	@Indexed @Field("release_date") @JsonProperty("release_date") val releaseDate: String? = null,
 )
