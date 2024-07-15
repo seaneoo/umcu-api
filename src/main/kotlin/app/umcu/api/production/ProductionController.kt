@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package app.umcu.api
+package app.umcu.api.production
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
