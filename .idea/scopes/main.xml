@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="main" pattern="src[umcu-api.main]:app.umcu.api..*" />
+</component>
