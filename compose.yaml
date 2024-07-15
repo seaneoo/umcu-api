@@ -1,0 +1,26 @@
+services:
+  db:
+    image: mongo:7.0.12
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=umcu
+      - MONGO_INITDB_ROOT_PASSWORD=changeme
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo:/data/db
+    restart: unless-stopped
+
+  mongo-express:
+    image: mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME=umcu
+      - ME_CONFIG_MONGODB_ADMINPASSWORD=changeme
+      - ME_CONFIG_MONGODB_SERVER=db
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  mongo:
