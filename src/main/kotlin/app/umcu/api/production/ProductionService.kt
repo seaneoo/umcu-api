@@ -18,13 +18,16 @@
 
 package app.umcu.api.production
 
-import org.springframework.data.mongodb.repository.MongoRepository
-import org.springframework.data.mongodb.repository.Query
-import org.springframework.stereotype.Repository
+import org.springframework.stereotype.Service
 
-@Repository
-interface ProductionRepository : MongoRepository<Production, Int> {
+@Service
+class ProductionService(private val productionRepository: ProductionRepository) {
 
-	@Query(value = "{'slug': {\$regex : ?0, \$options: 'i'}}")
-	fun findBySlug(slug: String): Production?
+	fun findAll(): List<Production> {
+		return productionRepository.findAll().toList()
+	}
+
+	fun findBySlug(slug: String): Production? {
+		return productionRepository.findBySlug(slug)
+	}
 }
