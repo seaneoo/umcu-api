@@ -16,18 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package app.umcu.api.production
+package app.umcu.api.ext
 
-import app.umcu.api.ext.toSlug
-import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener
-import org.springframework.data.mongodb.core.mapping.event.BeforeConvertEvent
-import org.springframework.stereotype.Component
+import java.text.Normalizer
 
-@Component
-class ProductionListener : AbstractMongoEventListener<Production>() {
-
-	override fun onBeforeConvert(event: BeforeConvertEvent<Production>) {
-		val production = event.source
-		production.slug = production.title.toSlug()
-	}
-}
+/**
+ * Converts a String into a slug.
+ *
+ * @author <a href="https://gist.github.com/adrianoluis/641e21dc24a1dbfb09e203d857ae76a3">adrianoluis</a>
+ */
+fun String.toSlug() = Normalizer.normalize(this, Normalizer.Form.NFD).replace("[^\\p{ASCII}]".toRegex(), "")
+	.replace("[^a-zA-Z0-9\\s]+".toRegex(), "").trim().replace("\\s+".toRegex(), "-").lowercase()
