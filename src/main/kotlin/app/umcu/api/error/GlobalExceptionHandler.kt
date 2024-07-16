@@ -25,6 +25,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.resource.NoResourceFoundException
 
 @RestControllerAdvice
@@ -57,6 +58,24 @@ class GlobalExceptionHandler(private val logger: Logger = LoggerFactory.getLogge
 		val httpStatus = HttpStatus.NOT_FOUND
 		val response = ExceptionResponse(
 			statusCode = httpStatus.value(), statusReason = httpStatus.reasonPhrase, path = req.requestURI
+		)
+		return ResponseEntity.status(httpStatus).body(response)
+	}
+
+	/**
+	 * Catch all [ResponseStatusException] errors.
+	 */
+	@ExceptionHandler(ResponseStatusException::class)
+	fun handleResponseStatusException(
+		req: HttpServletRequest,
+		e: ResponseStatusException,
+	): ResponseEntity<ExceptionResponse> {
+		val httpStatus = HttpStatus.valueOf(e.statusCode.value())
+		val response = ExceptionResponse(
+			statusCode = httpStatus.value(),
+			statusReason = httpStatus.reasonPhrase,
+			path = req.requestURI,
+			message = e.message
 		)
 		return ResponseEntity.status(httpStatus).body(response)
 	}
