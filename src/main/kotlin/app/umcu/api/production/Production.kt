@@ -33,4 +33,6 @@ class Production(
 	@Field("imdb_id") @JsonProperty("imdb_id") val imdbId: String? = null,
 	val title: String,
 	@Indexed @Field("release_date") @JsonProperty("release_date") val releaseDate: String? = null,
+	@Field("poster_path") val posterPath: String? = null,
+	val overview: String? = null,
 )
