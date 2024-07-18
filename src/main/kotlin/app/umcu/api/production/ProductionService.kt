@@ -19,12 +19,16 @@
 package app.umcu.api.production
 
 import org.springframework.stereotype.Service
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Service
 class ProductionService(private val productionRepository: ProductionRepository) {
 
 	fun findAll(): List<Production> {
-		return productionRepository.findAll().toList()
+		return productionRepository.findAll().sortedWith(compareBy(nullsLast()) {
+			it.releaseDate?.let { dateStr -> LocalDate.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE) }
+		})
 	}
 
 	fun findBySlug(slug: String): Production? {
