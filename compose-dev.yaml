@@ -7,7 +7,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./mongo:/data/db
+      - ./mongo_dev:/data/db
     restart: unless-stopped
 
   mongo-express:
@@ -23,4 +23,4 @@ services:
     restart: unless-stopped
 
 volumes:
-  mongo:
+  mongo_dev:
