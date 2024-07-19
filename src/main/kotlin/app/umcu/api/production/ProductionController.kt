@@ -19,18 +19,25 @@
 package app.umcu.api.production
 
 import app.umcu.api.error.ProductionNotFoundException
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.Pattern
 import org.springframework.http.ResponseEntity
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/productions")
+@Validated
 class ProductionController(private val productionService: ProductionService) {
 
 	@GetMapping
 	fun findAll(
-		@RequestParam(required = false) page: Int = 1,
-		@RequestParam(required = false) size: Int = 10,
-		@RequestParam(required = false) status: String? = null,
+		@RequestParam(required = false) @Min(1, message = "Page must be at least 1") page: Int = 1,
+		@RequestParam(required = false) @Min(1, message = "Size must be at least 1") size: Int = 10,
+		@RequestParam(required = false) @Pattern(
+			regexp = "(?i)^(upcoming|released|announced)$",
+			message = "Status must be 'upcoming', 'released', or 'announced'."
+		) status: String? = null,
 	): ResponseEntity<Paged> {
 		return ResponseEntity.ok(productionService.findAllPaged(page, size, status))
 	}
