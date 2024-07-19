@@ -30,8 +30,9 @@ class ProductionController(private val productionService: ProductionService) {
 	fun findAll(
 		@RequestParam(required = false) page: Int = 1,
 		@RequestParam(required = false) size: Int = 10,
+		@RequestParam(required = false) status: String? = null,
 	): ResponseEntity<Paged> {
-		return ResponseEntity.ok(productionService.findAllPaged(page, size))
+		return ResponseEntity.ok(productionService.findAllPaged(page, size, status))
 	}
 
 	@GetMapping("/{slug}")

@@ -25,17 +25,31 @@ import java.time.format.DateTimeFormatter
 @Service
 class ProductionService(private val productionRepository: ProductionRepository) {
 
-	fun findAll(): List<Production> {
-		return productionRepository.findAll().sortedWith(compareBy(nullsLast()) {
-			it.releaseDate?.let { dateStr -> LocalDate.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE) }
-		})
+	fun findAll(status: String? = null): List<Production> {
+		val productions = productionRepository.findAll().map {
+			it to it.releaseDate?.let { dateStr -> LocalDate.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE) }
+		}.sortedWith(compareBy(nullsLast()) { it.second })
+
+		return when (status?.lowercase()) {
+			"released" -> productions.filter { (_, releaseDate) ->
+				releaseDate?.isBefore(LocalDate.now()) ?: false
+			}.map { it.first }
+
+			"upcoming" -> productions.filter { (_, releaseDate) ->
+				releaseDate?.isAfter(LocalDate.now()) ?: false
+			}.map { it.first }
+
+			"announced" -> productions.filter { (_, releaseDate) -> releaseDate == null }.map { it.first }
+
+			else -> productions.map { it.first }
+		}
 	}
 
-	fun findAllPaged(page: Int = 0, size: Int = 10): Paged {
+	fun findAllPaged(page: Int = 0, size: Int = 10, status: String? = null): Paged {
 		require(page > 0) { "Page must be greater than 0" }
 		require(size > 0) { "Size must be greater than 0" }
 
-		val productions = findAll()
+		val productions = findAll(status)
 		val totalPages = if (productions.isNotEmpty()) ((productions.size + size - 1) / size) else 0
 
 		val fromIndex = (page - 1) * size
