@@ -31,6 +31,29 @@ class ProductionService(private val productionRepository: ProductionRepository) 
 		})
 	}
 
+	fun findAllPaged(page: Int = 0, size: Int = 10): Paged {
+		require(page > 0) { "Page must be greater than 0" }
+		require(size > 0) { "Size must be greater than 0" }
+
+		val productions = findAll()
+		val totalPages = if (productions.isNotEmpty()) ((productions.size + size - 1) / size) else 0
+
+		val fromIndex = (page - 1) * size
+		val toIndex = minOf(fromIndex + size, productions.size)
+
+		if (fromIndex >= productions.size) return Paged(
+			page = page, size = size, totalPages = totalPages, totalResults = productions.size, results = emptyList()
+		)
+
+		return Paged(
+			page = page,
+			size = size,
+			totalPages = totalPages,
+			totalResults = productions.size,
+			results = productions.subList(fromIndex, toIndex)
+		)
+	}
+
 	fun findBySlug(slug: String): Production? {
 		return productionRepository.findBySlug(slug)
 	}

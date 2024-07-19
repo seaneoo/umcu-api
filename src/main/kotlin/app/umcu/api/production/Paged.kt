@@ -18,25 +18,12 @@
 
 package app.umcu.api.production
 
-import app.umcu.api.error.ProductionNotFoundException
-import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.*
+import com.fasterxml.jackson.annotation.JsonProperty
 
-@RestController
-@RequestMapping("/productions")
-class ProductionController(private val productionService: ProductionService) {
-
-	@GetMapping
-	fun findAll(
-		@RequestParam(required = false) page: Int = 1,
-		@RequestParam(required = false) size: Int = 10,
-	): ResponseEntity<Paged> {
-		return ResponseEntity.ok(productionService.findAllPaged(page, size))
-	}
-
-	@GetMapping("/{slug}")
-	fun findBySlug(@PathVariable slug: String): ResponseEntity<Production> {
-		val production = productionService.findBySlug(slug) ?: throw ProductionNotFoundException()
-		return ResponseEntity.ok(production)
-	}
-}
+data class Paged(
+	val page: Int,
+	val size: Int,
+	@JsonProperty("total_pages") val totalPages: Int,
+	@JsonProperty("total_results") val totalResults: Int,
+	val results: List<Production>,
+)
