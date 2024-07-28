@@ -25,6 +25,7 @@ import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
 
+@Suppress("unused")
 @Document(collection = "productions")
 class Production(
 	@Id @JsonIgnore val id: String? = null,
