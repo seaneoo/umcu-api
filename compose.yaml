@@ -1,0 +1,27 @@
+services:
+  db:
+    image: mongo:7.0.12
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=umcu
+      - MONGO_INITDB_ROOT_PASSWORD=changeme
+    expose:
+      - 27017
+    volumes:
+      - ./mongo:/data/db
+    restart: unless-stopped
+
+  app:
+    build: .
+    environment:
+      - SPRING_PROFILE=prod # Do not change
+      - TMDB_API_KEY= # TMDB API Read Access Token
+      - DB_USERNAME=umcu # Must match MONGO_INITDB_ROOT_USERNAME
+      - DB_PASSWORD=changeme # Must match MONGO_INITDB_ROOT_PASSWORD
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  mongo:
