@@ -14,9 +14,10 @@ services:
     build: .
     environment:
       - SPRING_PROFILE=prod # Do not change
-      - TMDB_API_KEY= # TMDB API Read Access Token
-      - DB_USERNAME=umcu # Must match MONGO_INITDB_ROOT_USERNAME
-      - DB_PASSWORD=changeme # Must match MONGO_INITDB_ROOT_PASSWORD
+      - TMDB_API_KEY=
+      - TMDB_LIST_ID=8289533
+      - DB_USERNAME=umcu
+      - DB_PASSWORD=changeme
     ports:
       - "8080:8080"
     depends_on:
