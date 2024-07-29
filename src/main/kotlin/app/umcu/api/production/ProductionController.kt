@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.*
 @Tag(name = "Productions")
 class ProductionController(private val productionService: ProductionService) {
 
-	@GetMapping(consumes = [MediaType.APPLICATION_JSON_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
+	@GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
 	@Operation(summary = "All Productions", description = "Get all productions.")
 	fun findAll(
 		@RequestParam(required = false) @Min(1, message = "Page must be at least 1") page: Int = 1,
@@ -47,14 +47,15 @@ class ProductionController(private val productionService: ProductionService) {
 		return ResponseEntity.ok(productionService.findAllPaged(page, size, status))
 	}
 
-	@GetMapping("/{slug}", consumes = [MediaType.APPLICATION_JSON_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
+	@GetMapping("/{slug}", produces = [MediaType.APPLICATION_JSON_VALUE])
 	@Operation(summary = "Production By Slug", description = "Get a single production by a slug.")
 	fun findBySlug(@PathVariable slug: String): ResponseEntity<Production> {
 		val production = productionService.findBySlug(slug) ?: throw ProductionNotFoundException()
 		return ResponseEntity.ok(production)
 	}
 
-	@GetMapping("/next")
+	@GetMapping("/next", produces = [MediaType.APPLICATION_JSON_VALUE])
+	@Operation(summary = "Next Production", description = "Get the next production to-be-released.")
 	fun findNextProduction(): ResponseEntity<Production> {
 		val production = productionService.findNextProduction() ?: throw ProductionNotFoundException()
 		return ResponseEntity.ok(production)
