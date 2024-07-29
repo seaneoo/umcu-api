@@ -25,6 +25,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface ProductionRepository : MongoRepository<Production, Int> {
 
-	@Query(value = "{'slug': {\$regex : ?0, \$options: 'i'}}")
+	@Query(value = "{'slug': ?0}")
 	fun findBySlug(slug: String): Production?
 }
