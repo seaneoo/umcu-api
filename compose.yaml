@@ -1,4 +1,15 @@
 services:
+  proxy:
+    image: nginx:stable-alpine3.19
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx:/etc/nginx/templates
+    restart: unless-stopped
+
   db:
     image: mongo:7.0.12
     environment:
@@ -10,7 +21,7 @@ services:
       - ./mongo:/data/db
     restart: unless-stopped
 
-  app:
+  api:
     build: .
     environment:
       - SPRING_PROFILE=prod # Do not change
@@ -18,11 +29,13 @@ services:
       - TMDB_LIST_ID=8289533
       - DB_USERNAME=umcu
       - DB_PASSWORD=changeme
-    ports:
-      - "8080:8080"
+    expose:
+      - 8080
     depends_on:
+      - proxy
       - db
     restart: unless-stopped
 
 volumes:
+  nginx:
   mongo:
