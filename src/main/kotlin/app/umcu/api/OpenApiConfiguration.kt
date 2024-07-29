@@ -41,7 +41,7 @@ private object OpenApi {
 
 	const val INFO_TITLE = "UpcomingMCU API"
 	const val INFO_DESCRIPTION = "The ultimate source for staying up-to-date with the Marvel Cinematic Universe."
-	const val INFO_VERSION = "0.1.0"
+	const val INFO_VERSION = "0.2.0"
 
 	const val CONTACT_URL = "https://github.com/upcomingmcu/"
 	const val CONTACT_EMAIL = "help@umcu.app"
