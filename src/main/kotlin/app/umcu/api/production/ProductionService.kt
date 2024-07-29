@@ -72,7 +72,7 @@ class ProductionService(private val productionRepository: ProductionRepository) 
 		return productionRepository.findBySlug(slug)
 	}
 
-	fun findNextProduction(): Production? {
+	fun findNext(): Production? {
 		return findAll("upcoming").firstOrNull()
 	}
 }

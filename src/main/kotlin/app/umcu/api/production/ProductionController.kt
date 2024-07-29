@@ -56,8 +56,8 @@ class ProductionController(private val productionService: ProductionService) {
 
 	@GetMapping("/next", produces = [MediaType.APPLICATION_JSON_VALUE])
 	@Operation(summary = "Next Production", description = "Get the next production to-be-released.")
-	fun findNextProduction(): ResponseEntity<Production> {
-		val production = productionService.findNextProduction() ?: throw ProductionNotFoundException()
+	fun findNext(): ResponseEntity<Production> {
+		val production = productionService.findNext() ?: throw ProductionNotFoundException()
 		return ResponseEntity.ok(production)
 	}
 }
