@@ -47,4 +47,10 @@ class ProductionController(private val productionService: ProductionService) {
 		val production = productionService.findBySlug(slug) ?: throw ProductionNotFoundException()
 		return ResponseEntity.ok(production)
 	}
+
+	@GetMapping("/next")
+	fun findNextProduction(): ResponseEntity<Production> {
+		val production = productionService.findNextProduction() ?: throw ProductionNotFoundException()
+		return ResponseEntity.ok(production)
+	}
 }
