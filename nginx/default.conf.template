@@ -1,7 +1,8 @@
 server {
-    listen ${NGINX_PORT};
-    listen [::]:${NGINX_PORT};
-    server_name ${NGINX_HOST};
+    # This port must match the right-side port of the proxy service in "compose.yaml".
+    listen 8536;
+    # The server_name is the IP/domain that will be used to connect to the server.
+    server_name localhost;
 
     proxy_set_header Host $http_host;
     proxy_set_header X-Real-IP $remote_addr;

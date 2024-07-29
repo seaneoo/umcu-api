@@ -1,11 +1,10 @@
 services:
   proxy:
     image: nginx:stable-alpine3.19
-    environment:
-      - NGINX_HOST=localhost
-      - NGINX_PORT=80
     ports:
-      - "80:80"
+      # The left-side port is the port that will be used for external connections, this can be changed to whatever.
+      # The right-side port must match the port in "default.conf.template".
+      - "8536:8536"
     volumes:
       - ./nginx:/etc/nginx/templates
     restart: unless-stopped
@@ -13,6 +12,7 @@ services:
   db:
     image: mongo:7.0.12
     environment:
+      # The username and password must match the DB_USERNAME and DB_PASSWORD in the api service.
       - MONGO_INITDB_ROOT_USERNAME=umcu
       - MONGO_INITDB_ROOT_PASSWORD=changeme
     expose:
@@ -25,8 +25,11 @@ services:
     build: .
     environment:
       - SPRING_PROFILE=prod # Do not change
+      # The TMDB_API_KEY is your read access token (obtained from https://www.themoviedb.org/settings/api).
       - TMDB_API_KEY=
+      # The TMDB list ID is the list to get productions from, do not change this if you're unsure.
       - TMDB_LIST_ID=8289533
+      # The DB_USERNAME and DB_PASSWORD must match the username and password in the db service.
       - DB_USERNAME=umcu
       - DB_PASSWORD=changeme
     expose:
