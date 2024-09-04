@@ -35,12 +35,13 @@ import org.springframework.web.util.UriComponentsBuilder
 
 @Service
 class Tmdb(
-	private val restTemplate: RestTemplate = RestTemplate(),
 	@Value("\${tmdb.api-key}") private val apiKey: String,
 	@Value("\${tmdb.list}") private val listId: String,
 	@Value("\${tmdb.base-url}") private val baseUrl: String,
-	private val logger: Logger = LoggerFactory.getLogger(Tmdb::class.java),
 ) {
+
+	private val restTemplate: RestTemplate = RestTemplate()
+	private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
 	private inline fun <reified T : Any> request(
 		pathSegments: Array<String> = emptyArray(),

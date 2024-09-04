@@ -29,7 +29,9 @@ import org.springframework.web.server.ResponseStatusException
 import org.springframework.web.servlet.resource.NoResourceFoundException
 
 @RestControllerAdvice
-class GlobalExceptionHandler(private val logger: Logger = LoggerFactory.getLogger(GlobalExceptionHandler::class.java)) {
+class GlobalExceptionHandler {
+
+	private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
 
 	/**
 	 * Catch all exceptions that are not caught by another handler.

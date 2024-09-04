@@ -33,9 +33,11 @@ import org.springframework.transaction.annotation.Transactional
 class PopulateDatabase(
 	private val tmdb: Tmdb,
 	private val productionRepository: ProductionRepository,
-	private val logger: Logger = LoggerFactory.getLogger(PopulateDatabase::class.java),
 ) : CommandLineRunner {
 
+	private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+
+	@Transactional
 	override fun run(vararg args: String?) {
 		val list = tmdb.getList()
 		val movies = list.filter { it.mediaType == "movie" }.map { tmdb.getMovie(it.tmdbId) }
@@ -44,7 +46,7 @@ class PopulateDatabase(
 	}
 
 	@Transactional
-	private fun populateDatabase(movies: List<TmdbMovieDetails>, series: List<TmdbSeriesDetails>) {
+	fun populateDatabase(movies: List<TmdbMovieDetails>, series: List<TmdbSeriesDetails>) {
 		try {
 			productionRepository.deleteAll()
 
