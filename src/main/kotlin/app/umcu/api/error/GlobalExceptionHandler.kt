@@ -18,9 +18,8 @@
 
 package app.umcu.api.error
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import jakarta.servlet.http.HttpServletRequest
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -31,14 +30,14 @@ import org.springframework.web.servlet.resource.NoResourceFoundException
 @RestControllerAdvice
 class GlobalExceptionHandler {
 
-	private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+	private val logger = KotlinLogging.logger {}
 
 	/**
 	 * Catch all exceptions that are not caught by another handler.
 	 */
 	@ExceptionHandler(Exception::class)
 	fun handleGenericException(req: HttpServletRequest, e: Exception): ResponseEntity<ExceptionResponse> {
-		logger.warn(e.stackTraceToString())
+		logger.warn { e.stackTraceToString() }
 		val httpStatus = HttpStatus.INTERNAL_SERVER_ERROR
 		val response = ExceptionResponse(
 			statusCode = httpStatus.value(),

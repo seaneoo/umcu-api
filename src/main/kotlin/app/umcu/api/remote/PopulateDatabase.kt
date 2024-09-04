@@ -23,8 +23,7 @@ import app.umcu.api.production.ProductionRepository
 import app.umcu.api.remote.model.TmdbMovieDetails
 import app.umcu.api.remote.model.TmdbSeriesDetails
 import app.umcu.api.remote.model.getReleaseDate
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
@@ -35,7 +34,7 @@ class PopulateDatabase(
 	private val productionRepository: ProductionRepository,
 ) : CommandLineRunner {
 
-	private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+	private val logger = KotlinLogging.logger {}
 
 	@Transactional
 	override fun run(vararg args: String?) {
@@ -81,7 +80,7 @@ class PopulateDatabase(
 
 			productionRepository.saveAll(seriesProductions)
 		} catch (e: Exception) {
-			logger.warn("Could not populate database: \"${e.message ?: "Unknown error"}\".")
+			logger.warn { "Could not populate database: \"${e.message ?: "Unknown error"}\"." }
 		}
 	}
 }

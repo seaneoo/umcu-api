@@ -22,8 +22,7 @@ import app.umcu.api.remote.model.TmdbList
 import app.umcu.api.remote.model.TmdbListItem
 import app.umcu.api.remote.model.TmdbMovieDetails
 import app.umcu.api.remote.model.TmdbSeriesDetails
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -41,7 +40,7 @@ class Tmdb(
 ) {
 
 	private val restTemplate: RestTemplate = RestTemplate()
-	private val logger: Logger = LoggerFactory.getLogger(this.javaClass)
+	private val logger = KotlinLogging.logger {}
 
 	private inline fun <reified T : Any> request(
 		pathSegments: Array<String> = emptyArray(),
@@ -55,11 +54,11 @@ class Tmdb(
 		params.forEach { uriBuilder.queryParam(it.first, it.second) }
 		val uri = uriBuilder.build().toUri()
 
-		logger.info("Request to '$uri'")
+		logger.info { "Request to '$uri'" }
 
 		return try {
 			val response = restTemplate.exchange<T>(uri, HttpMethod.GET, httpEntity)
-			logger.info("Response status ${response.statusCode}")
+			logger.info { "Response status ${response.statusCode}" }
 			response.body ?: throw NullPointerException("Response body was null for '$uri'.")
 		} catch (e: Exception) {
 			throw RuntimeException("Could not fetch resource from '$uri': \"${e.message ?: "Unknown error."}\"")

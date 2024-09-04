@@ -19,7 +19,7 @@
 package app.umcu.api.remote.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import org.slf4j.LoggerFactory
+import io.github.oshai.kotlinlogging.KotlinLogging
 
 data class TmdbMovieDetails(
 	@JsonProperty("id") val tmdbId: Int,
@@ -44,18 +44,18 @@ data class TmdbMovieReleaseDates(
 )
 
 fun TmdbMovieDetails.getReleaseDate(): TmdbMovieReleaseDates? {
-	val logger = LoggerFactory.getLogger(TmdbMovieDetails::class.java)
+	val logger = KotlinLogging.logger {}
 
 	val usReleaseDate = this.releaseDates.results.firstOrNull { it.iso31661 == "US" }?.releaseDates
 
 	if (usReleaseDate == null) {
-		logger.warn("US release date not found for '${this.tmdbId}'.")
+		logger.warn { "US release date not found for '${this.tmdbId}'." }
 		return null
 	}
 
 	val releaseDate = usReleaseDate.firstOrNull { it.type == 3 } ?: usReleaseDate.firstOrNull { it.type == 4 }
 	?: usReleaseDate.firstOrNull { it.type == 5 }
 
-	if (releaseDate == null) logger.warn("Theatrical, digital, or physical release date not found for '${this.tmdbId}'.")
+	if (releaseDate == null) logger.warn { "Theatrical, digital, or physical release date not found for '${this.tmdbId}'." }
 	return releaseDate
 }
