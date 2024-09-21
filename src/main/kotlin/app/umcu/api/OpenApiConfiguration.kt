@@ -19,6 +19,8 @@
 package app.umcu.api
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition
+import io.swagger.v3.oas.annotations.extensions.Extension
+import io.swagger.v3.oas.annotations.extensions.ExtensionProperty
 import io.swagger.v3.oas.annotations.info.Contact
 import io.swagger.v3.oas.annotations.info.Info
 import io.swagger.v3.oas.annotations.info.License
@@ -32,7 +34,13 @@ import org.springframework.context.annotation.Configuration
 		description = OpenApi.INFO_DESCRIPTION,
 		version = OpenApi.INFO_VERSION,
 		contact = Contact(url = OpenApi.CONTACT_URL, email = OpenApi.CONTACT_EMAIL),
-		license = License(name = OpenApi.LICENSE_NAME, url = OpenApi.LICENSE_URL)
+		license = License(name = OpenApi.LICENSE_NAME, url = OpenApi.LICENSE_URL),
+		extensions = [Extension(
+			name = "x-logo",
+			properties = [ExtensionProperty(
+				name = "url", value = "/umcu_shield.png"
+			)],
+		)]
 	), servers = [Server(url = OpenApi.SERVER_URL, description = OpenApi.SERVER_DESCRIPTION)]
 )
 class OpenApiConfiguration
