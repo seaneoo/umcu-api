@@ -29,8 +29,8 @@ import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
 @Component
-class PopulateDatabase(
-	private val tmdb: Tmdb,
+class PopulateDatabaseRunner(
+	private val tmdbApiService: TmdbApiService,
 	private val productionRepository: ProductionRepository,
 ) : CommandLineRunner {
 
@@ -38,9 +38,9 @@ class PopulateDatabase(
 
 	@Transactional
 	override fun run(vararg args: String?) {
-		val list = tmdb.getList()
-		val movies = list.filter { it.mediaType == "movie" }.map { tmdb.getMovie(it.tmdbId) }
-		val series = list.filter { it.mediaType == "tv" }.map { tmdb.getSeries(it.tmdbId) }
+		val list = tmdbApiService.getList()
+		val movies = list.filter { it.mediaType == "movie" }.map { tmdbApiService.getMovie(it.tmdbId) }
+		val series = list.filter { it.mediaType == "tv" }.map { tmdbApiService.getSeries(it.tmdbId) }
 		populateDatabase(movies, series)
 	}
 

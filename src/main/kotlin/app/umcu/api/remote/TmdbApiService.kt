@@ -33,7 +33,7 @@ import org.springframework.web.client.exchange
 import org.springframework.web.util.UriComponentsBuilder
 
 @Service
-class Tmdb(
+class TmdbApiService(
 	@Value("\${tmdb.api-key}") private val apiKey: String,
 	@Value("\${tmdb.list}") private val listId: String,
 	@Value("\${tmdb.base-url}") private val baseUrl: String,
@@ -54,11 +54,11 @@ class Tmdb(
 		params.forEach { uriBuilder.queryParam(it.first, it.second) }
 		val uri = uriBuilder.build().toUri()
 
-		logger.info { "Request to '$uri'" }
+		logger.debug { "Request to '$uri'" }
 
 		return try {
 			val response = restTemplate.exchange<T>(uri, HttpMethod.GET, httpEntity)
-			logger.info { "Response status ${response.statusCode}" }
+			logger.debug { "Response status ${response.statusCode}" }
 			response.body ?: throw NullPointerException("Response body was null for '$uri'.")
 		} catch (e: Exception) {
 			throw RuntimeException("Could not fetch resource from '$uri': \"${e.message ?: "Unknown error."}\"")
