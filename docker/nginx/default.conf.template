@@ -10,6 +10,6 @@ server {
     proxy_set_header X-Forwarded-Proto $scheme;
 
     location / {
-        proxy_pass http://api:8080;
+        proxy_pass http://umcu_api:8080;
     }
 }

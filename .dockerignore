@@ -1,12 +1,11 @@
 .github
 .gradle
 .idea
+docker
 .dockerignore
 .editorconfig
 .gitattributes
 .gitignore
-compose-dev.yaml
-Dockerfile
 FILEHEADER
 gradlew.bat
 LICENSE

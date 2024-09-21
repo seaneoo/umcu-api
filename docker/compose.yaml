@@ -1,3 +1,5 @@
+name: umcu-api
+
 services:
   proxy:
     image: nginx:stable-alpine3.19
@@ -9,7 +11,7 @@ services:
       - ./nginx:/etc/nginx/templates
     restart: unless-stopped
 
-  db:
+  mongo:
     image: mongo:7.0.12
     environment:
       # The username and password must match the DB_USERNAME and DB_PASSWORD in the api service.
@@ -21,7 +23,7 @@ services:
       - ./mongo:/data/db
     restart: unless-stopped
 
-  api:
+  umcu_api:
     build: .
     environment:
       - SPRING_PROFILE=prod # Do not change
@@ -36,7 +38,7 @@ services:
       - 8080
     depends_on:
       - proxy
-      - db
+      - mongo
     restart: unless-stopped
 
 volumes:
