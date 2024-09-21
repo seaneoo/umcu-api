@@ -18,8 +18,8 @@
 
 package app.umcu.api.remote
 
-import app.umcu.api.production.Production
-import app.umcu.api.production.ProductionRepository
+import app.umcu.api.productions.Production
+import app.umcu.api.productions.ProductionRepository
 import app.umcu.api.remote.model.TmdbMovieDetails
 import app.umcu.api.remote.model.TmdbSeriesDetails
 import app.umcu.api.remote.model.getReleaseDate

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package app.umcu.api.production
+package app.umcu.api.productions
 
 import org.springframework.stereotype.Service
 import java.time.LocalDate

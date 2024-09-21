@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package app.umcu.api.production
+package app.umcu.api.productions
 
 import app.umcu.api.error.ProductionNotFoundException
 import io.swagger.v3.oas.annotations.Operation
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/productions")
 @Validated
 @Tag(name = "Productions")
-class ProductionController(private val productionService: ProductionService) {
+class ProductionsController(private val productionService: ProductionService) {
 
 	@GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
 	@Operation(summary = "All Productions", description = "Get all productions.")

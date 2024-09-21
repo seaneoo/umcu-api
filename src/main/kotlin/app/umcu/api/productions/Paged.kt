@@ -16,18 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package app.umcu.api.production
+package app.umcu.api.productions
 
-import app.umcu.api.ext.toSlug
-import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener
-import org.springframework.data.mongodb.core.mapping.event.BeforeConvertEvent
-import org.springframework.stereotype.Component
+import com.fasterxml.jackson.annotation.JsonProperty
 
-@Component
-class ProductionListener : AbstractMongoEventListener<Production>() {
-
-	override fun onBeforeConvert(event: BeforeConvertEvent<Production>) {
-		val production = event.source
-		production.slug = production.title.toSlug()
-	}
-}
+data class Paged(
+	val page: Int,
+	val size: Int,
+	@JsonProperty("total_pages") val totalPages: Int,
+	@JsonProperty("total_results") val totalResults: Int,
+	val results: List<Production>,
+)
