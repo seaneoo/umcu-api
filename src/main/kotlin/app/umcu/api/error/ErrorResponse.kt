@@ -19,15 +19,14 @@
 package app.umcu.api.error
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.annotation.JsonProperty
 import io.swagger.v3.oas.annotations.Hidden
 import java.time.Instant
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Hidden
-data class ExceptionResponse(
-	@JsonProperty("status_code") val statusCode: Int,
-	@JsonProperty("status_reason") val statusReason: String,
+data class ErrorResponse(
+	val status: Int,
+	val error: String,
 	val path: String? = null,
 	val timestamp: Instant? = Instant.now(),
 	val message: String? = null,
