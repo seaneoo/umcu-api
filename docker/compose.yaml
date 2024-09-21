@@ -14,9 +14,8 @@ services:
   mongo:
     image: mongo:7.0.12
     environment:
-      # The username and password must match the DB_USERNAME and DB_PASSWORD in the api service.
-      - MONGO_INITDB_ROOT_USERNAME=umcu
-      - MONGO_INITDB_ROOT_PASSWORD=changeme
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
     expose:
       - 27017
     volumes:
@@ -24,16 +23,13 @@ services:
     restart: unless-stopped
 
   umcu_api:
-    build: .
+    image: ghcr.io/upcomingmcu/api:0.3.1
     environment:
-      - SPRING_PROFILE=prod # Do not change
-      # The TMDB_API_KEY is your read access token (obtained from https://www.themoviedb.org/settings/api).
-      - TMDB_API_KEY=
-      # The TMDB list ID is the list to get productions from, do not change this if you're unsure.
-      - TMDB_LIST_ID=8289533
-      # The DB_USERNAME and DB_PASSWORD must match the username and password in the db service.
-      - DB_USERNAME=umcu
-      - DB_PASSWORD=changeme
+      - SPRING_PROFILE=prod
+      - TMDB_API_KEY=${TMDB_API_KEY}
+      - TMDB_LIST_ID=${TMDB_LIST_ID}
+      - DB_USERNAME=${MONGO_USERNAME}
+      - DB_PASSWORD=${MONGO_PASSWORD}
     expose:
       - 8080
     depends_on:
