@@ -18,26 +18,16 @@
 
 package app.umcu.api.productions.response
 
-import app.umcu.api.productions.ProductionDocument
 import com.fasterxml.jackson.annotation.JsonProperty
 
-data class Production(
-	val slug: String,
-	@JsonProperty("tmdb_id") val tmdbId: Int,
-	@JsonProperty("imdb_id") val imdbId: String? = null,
-	val title: String,
-	@JsonProperty("release_date") val releaseDate: String? = null,
-	val overview: String? = null,
-	val poster: Poster? = null,
+const val IMAGE_BASE_URL = "https://image.tmdb.org/t/p/%s/%s"
+
+@Suppress("unused")
+data class Poster(
+    @JsonProperty("key") val posterPath: String,
 ) {
 
-	constructor(productionDocument: ProductionDocument) : this(
-		slug = productionDocument.slug!!,
-		tmdbId = productionDocument.tmdbId,
-		imdbId = productionDocument.imdbId,
-		title = productionDocument.title,
-		releaseDate = productionDocument.releaseDate,
-		overview = productionDocument.overview,
-		poster = productionDocument.posterPath?.let { Poster(it) },
-	)
+    private val sizes = listOf("w500", "w780", "original")
+    val images: Map<String, String> =
+        sizes.associateWith { size -> IMAGE_BASE_URL.format(size, posterPath.replace("^/".toRegex(), "")) }
 }
