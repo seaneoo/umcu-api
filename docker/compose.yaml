@@ -23,7 +23,7 @@ services:
     restart: unless-stopped
 
   umcu_api:
-    image: ghcr.io/upcomingmcu/api:0.3.1
+    image: ghcr.io/upcomingmcu/api:0.4.0
     environment:
       - SPRING_PROFILE=prod
       - TMDB_API_KEY=${TMDB_API_KEY}
