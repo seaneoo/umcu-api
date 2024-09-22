@@ -18,12 +18,20 @@
 
 package app.umcu.api.productions
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.index.Indexed
+import org.springframework.data.mongodb.core.mapping.Document
+import org.springframework.data.mongodb.core.mapping.Field
 
-data class Paged(
-	val page: Int,
-	val size: Int,
-	@JsonProperty("total_pages") val totalPages: Int,
-	@JsonProperty("total_results") val totalResults: Int,
-	val results: List<Production>,
+@Suppress("unused")
+@Document(collection = "productions")
+class ProductionDocument(
+	@Id val id: String? = null,
+	@Indexed(unique = true) var slug: String? = null,
+	@Indexed @Field("tmdb_id") val tmdbId: Int,
+	@Field("imdb_id") val imdbId: String? = null,
+	val title: String,
+	@Indexed @Field("release_date") val releaseDate: String? = null,
+	@Field("poster_path") val posterPath: String? = null,
+	val overview: String? = null,
 )

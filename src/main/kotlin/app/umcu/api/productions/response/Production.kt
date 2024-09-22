@@ -16,24 +16,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package app.umcu.api.productions
+package app.umcu.api.productions.response
 
-import com.fasterxml.jackson.annotation.JsonIgnore
+import app.umcu.api.productions.ProductionDocument
 import com.fasterxml.jackson.annotation.JsonProperty
-import org.springframework.data.annotation.Id
-import org.springframework.data.mongodb.core.index.Indexed
-import org.springframework.data.mongodb.core.mapping.Document
-import org.springframework.data.mongodb.core.mapping.Field
 
-@Suppress("unused")
-@Document(collection = "productions")
-class Production(
-	@Id @JsonIgnore val id: String? = null,
-	@Indexed(unique = true) var slug: String? = null,
-	@Indexed @Field("tmdb_id") @JsonProperty("tmdb_id") val tmdbId: Int,
-	@Field("imdb_id") @JsonProperty("imdb_id") val imdbId: String? = null,
+data class Production(
+	val slug: String,
+	@JsonProperty("tmdb_id") val tmdbId: Int,
+	@JsonProperty("imdb_id") val imdbId: String? = null,
 	val title: String,
-	@Indexed @Field("release_date") @JsonProperty("release_date") val releaseDate: String? = null,
-	@Field("poster_path") @JsonProperty("poster_path") val posterPath: String? = null,
+	@JsonProperty("release_date") val releaseDate: String? = null,
 	val overview: String? = null,
-)
+	@JsonProperty("poster_path") val posterPath: String? = null,
+) {
+
+	constructor(productionDocument: ProductionDocument) : this(
+		slug = productionDocument.slug!!,
+		tmdbId = productionDocument.tmdbId,
+		imdbId = productionDocument.imdbId,
+		title = productionDocument.title,
+		releaseDate = productionDocument.releaseDate,
+		overview = productionDocument.overview,
+		posterPath = productionDocument.posterPath,
+	)
+}

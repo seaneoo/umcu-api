@@ -23,8 +23,8 @@ import org.springframework.data.mongodb.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface ProductionRepository : MongoRepository<Production, Int> {
+interface ProductionRepository : MongoRepository<ProductionDocument, Int> {
 
 	@Query(value = "{'slug': ?0}")
-	fun findBySlug(slug: String): Production?
+	fun findBySlug(slug: String): ProductionDocument?
 }

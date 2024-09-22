@@ -18,6 +18,8 @@
 
 package app.umcu.api.productions
 
+import app.umcu.api.productions.response.Paged
+import app.umcu.api.productions.response.Production
 import org.springframework.stereotype.Service
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -33,15 +35,16 @@ class ProductionService(private val productionRepository: ProductionRepository) 
 		return when (status?.lowercase()) {
 			"released" -> productions.filter { (_, releaseDate) ->
 				releaseDate?.isBefore(LocalDate.now()) ?: false
-			}.map { it.first }
+			}.map { it.first }.map { Production(it) }
 
 			"upcoming" -> productions.filter { (_, releaseDate) ->
 				releaseDate?.isAfter(LocalDate.now()) ?: false
-			}.map { it.first }
+			}.map { it.first }.map { Production(it) }
 
 			"announced" -> productions.filter { (_, releaseDate) -> releaseDate == null }.map { it.first }
+				.map { Production(it) }
 
-			else -> productions.map { it.first }
+			else -> productions.map { it.first }.map { Production(it) }
 		}
 	}
 
@@ -69,7 +72,7 @@ class ProductionService(private val productionRepository: ProductionRepository) 
 	}
 
 	fun findBySlug(slug: String): Production? {
-		return productionRepository.findBySlug(slug)
+		return productionRepository.findBySlug(slug)?.let { Production(it) }
 	}
 
 	fun findNext(): Production? {

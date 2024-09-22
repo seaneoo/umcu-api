@@ -18,7 +18,7 @@
 
 package app.umcu.api.remote
 
-import app.umcu.api.productions.Production
+import app.umcu.api.productions.ProductionDocument
 import app.umcu.api.productions.ProductionRepository
 import app.umcu.api.remote.model.TmdbMovieDetails
 import app.umcu.api.remote.model.TmdbSeriesDetails
@@ -49,8 +49,8 @@ class PopulateDatabaseRunner(
 		try {
 			productionRepository.deleteAll()
 
-			val movieProductions = movies.map {
-				Production(
+			val movieProductionDocuments = movies.map {
+				ProductionDocument(
 					tmdbId = it.tmdbId,
 					imdbId = it.imdbId,
 					title = it.title,
@@ -60,14 +60,14 @@ class PopulateDatabaseRunner(
 				)
 			}
 
-			productionRepository.saveAll(movieProductions)
+			productionRepository.saveAll(movieProductionDocuments)
 
-			val seriesProductions = series.flatMap {
+			val seriesProductionDocuments = series.flatMap {
 				it.seasons.map { season ->
 					val title = if (it.seasonCount > 1) "${it.name} Season ${season.seasonNumber}" else it.name
 					val posterPath = if (it.seasonCount > 1) season.posterPath else it.posterPath
 					val overview = if (it.seasonCount > 1) season.overview else it.overview
-					Production(
+					ProductionDocument(
 						tmdbId = it.tmdbId,
 						imdbId = it.externalIds.imdbId,
 						title = title,
@@ -78,7 +78,7 @@ class PopulateDatabaseRunner(
 				}
 			}
 
-			productionRepository.saveAll(seriesProductions)
+			productionRepository.saveAll(seriesProductionDocuments)
 		} catch (e: Exception) {
 			logger.warn { "Could not populate database: \"${e.message ?: "Unknown error"}\"." }
 		}
