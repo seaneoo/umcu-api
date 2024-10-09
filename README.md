@@ -3,9 +3,7 @@
 UpcomingMCU (UMCU) API is a free, consumable-only REST API to retrieve data about the productions within the [Marvel
 Cinematic Universe (MCU)](https://en.wikipedia.org/wiki/Marvel_Cinematic_Universe).
 
-[![GitHub Release](https://img.shields.io/github/v/release/upcomingmcu/api?include_prereleases&label=latest%20release)](https://github.com/upcomingmcu/api/releases)
-
-[![Build Boot Jar](https://github.com/upcomingmcu/api/actions/workflows/build-boot-jar.yml/badge.svg)](https://github.com/upcomingmcu/api/actions/workflows/build-boot-jar.yml) [![Build Docker Image](https://github.com/upcomingmcu/api/actions/workflows/build-docker-image.yml/badge.svg)](https://github.com/upcomingmcu/api/actions/workflows/build-docker-image.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/seaneoo/umcu-api?include_prereleases&label=latest%20release)](https://github.com/seaneoo/umcu-api/releases) [![Build Boot Jar](https://github.com/seaneoo/umcu-api/actions/workflows/build-boot-jar.yml/badge.svg)](https://github.com/seaneoo/umcu-api/actions/workflows/build-boot-jar.yml) [![Build Docker Image](https://github.com/seaneoo/umcu-api/actions/workflows/build-docker-image.yml/badge.svg)](https://github.com/seaneoo/umcu-api/actions/workflows/build-docker-image.yml)
 
 ## Data
 
