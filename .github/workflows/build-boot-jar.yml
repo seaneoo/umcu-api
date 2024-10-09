@@ -2,9 +2,9 @@ name: Build Boot Jar
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "prod" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "prod" ]
 
 env:
   JAVA_VERSION: 21
