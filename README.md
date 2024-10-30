@@ -1,3 +1,6 @@
+> [!WARNING]  
+> I will no longer be hosting an instance of this API in the near future. If you would like to keep using it, please create your own server.
+
 # UpcomingMCU API
 
 UpcomingMCU (UMCU) API is a free, consumable-only REST API to retrieve data about the productions within the [Marvel
